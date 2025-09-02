@@ -1,6 +1,3 @@
-package exercises;
-
-public
 package cs250.exercises;
 
 import java.util.Random;
@@ -22,7 +19,9 @@ public class Exercise3 {
     public static void main(String[] args) {
         Random random = new Random();
         // generate a float in the range 10.50 > 100.75
-        float randomFloat = random.nextFloat((float)10.50, (float)100.76);
+        float randomFloat = random.nextFloat((float) 10.50, (float) 100.76);
+        // java 8 variant is random.nextFloat(upperbound - lowerbound) + lowerbound;
+        // float randomFloat = random.nextFloat((float)100.75 - (float)10.50) + 10.50; 
         // generate a int in the range 10 > 20
         int randomInt = random.nextInt(10, 21);
         // Print the Int first then the Float
@@ -34,11 +33,17 @@ public class Exercise3 {
         // Add all 4 numbers and print it to screen
         float total = randomFloat + randomInt;
 
-        while (scanner.hasNextLine()){
+        if (scanner.hasNextLine()) {
             String input = scanner.nextLine();
             total += Float.parseFloat(input);
         }
+        if (scanner.hasNextLine()) {
+            String input = scanner.nextLine();
+            total += Float.parseFloat(input);
+        }
+
         scanner.close();
+
         System.out.println(total);
     }
 
