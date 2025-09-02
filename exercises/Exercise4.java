@@ -1,4 +1,4 @@
-package exercises;
+package cs250.exercises;
 
 /**
  * In the main method, read each argument passed in through the command line
