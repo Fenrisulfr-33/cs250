@@ -39,7 +39,8 @@ public class Exercise4 {
         // All characters concatanated together
         System.out.println(argumentString);
         // The count of 'a' in the concatanated string ???
-        System.out.println(1);
+        String argumentStringOnlyAs = argumentString.replaceAll("[^a]", "");
+        System.out.println(argumentStringOnlyAs.length());
         // The concatanated string in all uppercase
         System.out.println(argumentString.toUpperCase());
         // The concatanated string in all lowercase
@@ -51,7 +52,7 @@ public class Exercise4 {
         // The concatanated string where all . (dot) is replaced by an _ (underscore)
         System.out.println(argumentString.replace(".", "_"));
         // The last index of the characer 'e' in the concatanated string
-        System.out.println(argumentString.indexOf("e"));
+        System.out.println(argumentString.lastIndexOf("e"));
         // The concatanated string in reverse
         System.out.println(reverseArgumentString);
         // The sum of the ASCII values of all characters as an integer
