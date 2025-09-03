@@ -1,4 +1,4 @@
-package exercises;
+package cs250.exercises;
 
 public class Exercise5 {
     public static void main(String[] args) {
@@ -40,13 +40,14 @@ public class Exercise5 {
             System.out.println(args[0].length());
         }
         // If the length of the string is odd, print 'odd'; if it is even, print 'even'
-        if (args[0].length() % 2 == 0){
+        if (args[0].length() % 2 == 0) {
             System.out.println("even");
         } else {
             System.out.println("odd");
         }
-        // if the char at index 3 is not lowercase, print the char as lowercase; else print it in uppercase
-        if (args[0].charAt(3) == args[0].toLowerCase().charAt(3)){
+        // if the char at index 3 is not lowercase, print the char as lowercase; else
+        // print it in uppercase
+        if (args[0].charAt(3) == args[0].toLowerCase().charAt(3)) {
             System.out.println(args[0].toUpperCase().charAt(3));
         } else {
             System.out.println(args[0].toLowerCase().charAt(3));
