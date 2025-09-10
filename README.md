@@ -1,5 +1,8 @@
 # This is a Save File for cs250
 
+
+## Exercises
+
 - [ x ] Exercise 1
 - [ x ] Exercise 2
 - [ x ] Exercise 3
@@ -10,3 +13,6 @@
 - [ x ] Exercise 8
 - [ x ] Exercise 9
 - [ x ] Exercise 10
+
+## Homework
+- [  ] Homework 1
