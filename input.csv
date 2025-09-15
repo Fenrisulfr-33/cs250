@@ -1,0 +1,3 @@
+dir1/file1.txt, some_string_or_num
+file2.txt, hello_world
+dir3/subdir/3/file3.txt, this is a file manipulation exercise

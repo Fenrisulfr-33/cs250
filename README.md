@@ -14,6 +14,7 @@
 - [ x ] Exercise 9
 - [ x ] Exercise 10
 - [ x ] Exercise 11
+- [ x ] Exercise 12
 
 ## Homework
 - [  ] Homework 1
