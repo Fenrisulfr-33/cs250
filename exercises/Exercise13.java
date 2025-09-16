@@ -49,13 +49,17 @@ public class Exercise13 {
 
     public double arrayRemove(int[] array, int searchVal) {
         int[] newArray = new int[array.length - 1];
+        // implement a new index for newArray since it won't match after the delete
+        int newArrayIndex = 0;
         // Remove searchVal from the list
         long startTime = System.nanoTime();
         for (int i = 0; i < array.length; i++) {
             if (array[i] == searchVal) {
                 continue;
+            } else {
+                newArray[newArrayIndex++] = array[i];
             }
-            newArray[i] = array[i];
+            
         }
         long endTime = System.nanoTime();
         return (endTime - startTime) / 1000000000.0;
@@ -124,7 +128,6 @@ public class Exercise13 {
     }
 
     public static void main(String[] args) {
-        // are the arguments the array and search value?
     }
 
 }
