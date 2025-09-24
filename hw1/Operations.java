@@ -4,18 +4,248 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Operations {
+    public String argument1;
+    private String binary1;
+    private String argument2;
+    private String binary2;
+    private String argument3;
+    private String binary3;
+
+    public void setArgument1(String number) {
+        this.argument1 = number;
+    }
+
+    public String getArgument1() {
+        return this.argument1;
+    }
+
+    public void setBinary1(String number) {
+        this.binary1 = number;
+    }
+
+    public String getBinary1() {
+        return this.binary1;
+    }
+
+    public void setArgument2(String number) {
+        this.argument2 = number;
+    }
+
+    public String getArgument2() {
+        return this.argument2;
+    }
+
+    public void setBinary2(String number) {
+        this.binary2 = number;
+    }
+
+    public String getBinary2() {
+        return this.binary2;
+    }
+
+    public void setArgument3(String number) {
+        this.argument3 = number;
+    }
+
+    public String getArgument3() {
+        return this.argument3;
+    }
+
+    public void setBinary3(String number) {
+        this.binary3 = number;
+    }
+
+    public String getBinary3() {
+        return this.binary3;
+    }
+
+    public Operations(String argument1, String argument2, String argument3) {
+        setArgument1(argument1);
+        setArgument2(argument2);
+        setArgument3(argument3);
+        setBinary1(convertArgumentToBinary(argument1));
+        setBinary2(convertArgumentToBinary(argument2));
+        setBinary3(convertArgumentToBinary(argument3));
+    }
+
     /**
      * Error handler for argument length not 3
      * 
      * @param args
      * @return Error and status 0
      */
-    public static int checkArgumentLength(String[] args) {
+    public static void checkArgumentLength(String[] args) {
         if (args.length != 3) {
-            System.out.println("Command must take in exactly 3 arguments");
-            return 0;
+            System.out.println("Incorrect number of arguments have been provided. Program Terminating!");
+            System.exit(0);
+        } else {
+            System.out.println("Correct number of arguments given.");
         }
-        return 1;
+    }
+
+    public void task2() {
+        System.out.println(argument1 + "=" + argumentType(argument1));
+        System.out.println(argument2 + "=" + argumentType(argument2));
+        System.out.println(argument3 + "=" + argumentType(argument3));
+    }
+
+    public void task3() {
+        boolean isValid1 = task3Helper(argument1, argumentType(argument1));
+        boolean isValid2 = task3Helper(argument2, argumentType(argument2));
+        boolean isValid3 = task3Helper(argument3, argumentType(argument3));
+        System.out.println(argument1 + "=" + task3Helper(argument1, argumentType(argument1)));
+        System.out.println(argument2 + "=" + task3Helper(argument2, argumentType(argument2)));
+        System.out.println(argument3 + "=" + task3Helper(argument3, argumentType(argument3)));
+        if (isValid1 == false || isValid2 == false || isValid3 == false) {
+            System.exit(0);
+        }
+    }
+
+    public boolean task3Helper(String number, String numberType) {
+        if (numberType.equals("Binary")) {
+            return binaryIsBinary(number);
+        } else if (numberType.equals("Hexadecimal")) {
+            return hexIsHex(number);
+        } else {
+            return decimalIsDecimal(number);
+        }
+    }
+
+    public boolean binaryIsBinary(String number) {
+        String binaryNumber = number.substring(2);
+        Pattern pattern = Pattern.compile("[^0-1\\s]");
+        Matcher matcher = pattern.matcher(binaryNumber);
+        if (matcher.find()) {
+            return false;
+        }
+        return true;
+    }
+
+    public boolean hexIsHex(String number) {
+        String hexadecimal = number.substring(2);
+        Pattern pattern = Pattern.compile("[^a-fA-F0-9\\s]");
+        Matcher matcher = pattern.matcher(hexadecimal);
+        if (matcher.find()) {
+            return false;
+        }
+        return true;
+    }
+
+    public boolean decimalIsDecimal(String number) {
+        Pattern pattern = Pattern.compile("[^0-9\\s]");
+        Matcher matcher = pattern.matcher(number);
+        if (matcher.find()) {
+            return false;
+        }
+        return true;
+    }
+
+    public void task4() {
+        System.out.println("Start=" + argument1 + task4Helper(argument1, argumentType(argument1)));
+        System.out.println("Start=" + argument2 + task4Helper(argument2, argumentType(argument2)));
+        System.out.println("Start=" + argument3 + task4Helper(argument3, argumentType(argument3)));
+
+    }
+
+    public String task4Helper(String number, String numberType) {
+        String returnString = "";
+        if (numberType.equals("Binary")) {
+            String binary = number.substring(2);
+            returnString += ",Binary=0b" + binary;
+            returnString += ",Decimal=" + convertBinaryToDecimal(binary);
+            returnString += ",Hexadecimal=0x" + convertBinaryToHexadecimal(binary);
+        } else if (numberType.equals("Hexadecimal")) {
+            String hex = number.substring(2);
+            returnString += ",Binary=0b" + convertHexadecimalToBinary(hex);
+            returnString += ",Decimal=" + convertHexadecimalToDecimal(hex);
+            returnString += ",Hexadecimal=0x" + hex;
+        } else {
+            int decimal = convertDecimalStringToInt(number);
+            returnString += ",Binary=0b" + convertDecimalToBinary(decimal);
+            returnString += ",Decimal=" + number;
+            returnString += ",Hexadecimal=0x" + convertDecimalToHexadecimal(decimal);
+        }
+        return returnString;
+    }
+
+    public void task5() {
+        System.out.println(argument1 + "=" + binary1 + "=>" + convertToOnesComplement(binary1));
+        System.out.println(argument2 + "=" + binary2 + "=>" + convertToOnesComplement(binary2));
+        System.out.println(argument3 + "=" + binary3 + "=>" + convertToOnesComplement(binary3));
+    }
+
+    public void task6() {
+        System.out.println(argument1 + "=" + binary1 + "=>"
+                + padBinaryToTheSameLength(convertToTwosComplement(binary1), binary1.length()));
+        System.out.println(argument2 + "=" + binary2 + "=>"
+                + padBinaryToTheSameLength(convertToTwosComplement(binary2), binary2.length()));
+        System.out.println(argument3 + "=" + binary3 + "=>"
+                + padBinaryToTheSameLength(convertToTwosComplement(binary3), binary3.length()));
+    }
+
+    public void task7() {
+        System.out.println(binary1 + "|" + binary2 + "|" + binary3 + "=" + computeOR());
+        System.out.println(binary1 + "&" + binary2 + "&" + binary3 + "=" + computeAND());
+        System.out.println(binary1 + "^" + binary2 + "^" + binary3 + "=" + computeXOR());
+    }
+
+    public void task8() {
+        System.out.println(
+                binary1 + "<<" + "2=" + shiftLeft(binary1) + "," + binary1 + ">>" + "2=" + shiftRight(binary1));
+        System.out.println(
+                binary2 + "<<" + "2=" + shiftLeft(binary2) + "," + binary2 + ">>" + "2=" + shiftRight(binary2));
+        System.out.println(
+                binary3 + "<<" + "2=" + shiftLeft(binary3) + "," + binary3 + ">>" + "2=" + shiftRight(binary3));
+    }
+
+    public String convertArgumentToBinary(String argument) {
+        String binary;
+        if (argumentType(argument).equals("Binary")) {
+            binary = argument.substring(2);
+        } else if (argumentType(argument).equals("Hexadecimal")) {
+            String hexadecimal = argument.substring(2);
+            binary = convertHexadecimalToBinary(hexadecimal);
+        } else {
+            int number = convertDecimalStringToInt(argument);
+            binary = convertDecimalToBinary(number);
+        }
+        return binary;
+    }
+
+    /**
+     * Check what argument type is passed in
+     * 
+     * @param argument
+     * @return
+     */
+    public String argumentType(String argument) {
+        String type;
+        if (isBinary(argument)) {
+            type = "Binary";
+        } else if (isHexadecimal(argument)) {
+            type = "Hexadecimal";
+        } else {
+            type = "Decimal";
+        }
+        return type;
+    }
+
+    /**
+     * Pad binary numbers to be bytes
+     * 
+     * @param number
+     * @return
+     */
+    public String binaryPadding(String number) {
+        // add padding to binary number 4 - length % 4
+        int paddingNeeded = 4 - (number.length() % 4);
+        String padding = "";
+        if (paddingNeeded != 4) {
+            for (int i = 0; i < paddingNeeded; i++) {
+                padding += "0";
+            }
+        }
+        return padding + number;
     }
 
     /**
@@ -24,15 +254,7 @@ public class Operations {
      * @param number
      * @return boolean
      */
-    private static boolean isBinary(String number) {
-        // System.out.println("isBinary: " + number);
-        // String binaryCheck = number.substring(0, 2);
-
-        // if (!binaryCheck.equals("0b")) {
-        //     return false;
-        // }
-        // return true;
-
+    private boolean isBinary(String number) {
         return number.contains("0b");
     }
 
@@ -42,102 +264,18 @@ public class Operations {
      * @param number
      * @return boolean
      */
-    private static boolean isHexadecimal(String number) {
+    private boolean isHexadecimal(String number) {
         return number.contains("0x");
     }
 
     /**
-     * check the number string for illegal characters in binary string
-     * 
-     * @param number
-     * @return boolean
-     */
-    public static boolean binaryContainsIllegalCharacters(String number) {
-        String binaryNumber = number.substring(2);
-        Pattern pattern = Pattern.compile("[^0-1\\s]");
-        Matcher matcher = pattern.matcher(binaryNumber);
-        if (matcher.find()) {
-            binaryNumberErrorHandler();
-        }
-        return true;
-    }
-
-    /**
-     * Error handler for binary number has illegal numbers
-     * 
-     * @return Error and status 0
-     */
-    public static int binaryNumberErrorHandler() {
-        System.out.println("Binary number contains illegal numbers");
-        return 0;
-    }
-
-    /**
-     * Check the number string for illegal characters in hexadecimal string
+     * Convert the binary string to a hexadecimal string
+     * BASE CONVERSION binary to hex
      * 
      * @param number
      * @return
      */
-    public static boolean hexadecimalContainsIllegalCharacters(String number) {
-        Pattern pattern = Pattern.compile("[^a-fA-F0-9\\s]");
-        Matcher matcher = pattern.matcher(number);
-        if (matcher.find()) {
-            hexadecimalNumberErrorHandler();
-        }
-        return true;
-    }
-
-    /**
-     * Error handler for binary number has illegal numbers
-     * 
-     * @return Error and status 0
-     */
-    public static boolean hexadecimalNumberErrorHandler() {
-        System.out.print("Decimal number contains illegal numbers. ");
-        return false;
-    }
-
-    /**
-     * Check the number string to illegal characters in decimal string
-     * 
-     * @param number
-     * @return
-     */
-    public static boolean decimalContainsIllegalCharacters(String number) {
-        Pattern pattern = Pattern.compile("[^0-9\\s]");
-        Matcher matcher = pattern.matcher(number);
-        if (matcher.find()) {
-            decimalNumberErrorHandler();
-        }
-        return true;
-    }
-
-    /**
-     * Error handler for binary number has illegal numbers
-     * 
-     * @return Error and status 0
-     */
-    public static int decimalNumberErrorHandler() {
-        System.out.println("Decimal number contains illegal numbers");
-        return 0;
-    }
-
-    public static String convertBinaryToBinary(String binary) {
-        return binary.substring(2);
-    }
-
-    /**
-     * convert the binary string to a hexadecimal string
-     * 
-     * @param number
-     * @return
-     */
-    public static String convertBinaryToHexadecimal(String number) {
-        String newBinary = number;
-        if (number.startsWith("0b")) {
-            newBinary = number.substring(2);
-        }
-        String binary = binaryPadding(newBinary); // 01 0101 0101
+    public String convertBinaryToHexadecimal(String binary) {
         String hex = "";
         for (int i = 0; i < binary.length(); i += 4) {
             hex += bitToHex(binary.substring(i, i + 4));
@@ -145,56 +283,44 @@ public class Operations {
         return hex;
     }
 
-    public static int convertBinaryToDecimal(String number) {
-        String newBinary = number;
-        if (number.startsWith("0b")) {
-            newBinary = number.substring(2);
-        }
-        String binary = binaryPadding(newBinary);
+    /**
+     * Convert the binary string to Hex and then to decimal
+     * SKIP CONVERSION binary to hex then to decimal
+     * 
+     * @param binary
+     * @return
+     */
+    public int convertBinaryToDecimal(String binary) {
         String hexadecimal = convertBinaryToHexadecimal(binary);
         int decimal = convertHexadecimalToDecimal(hexadecimal);
         return decimal;
     }
 
-    // add padding to the left with 0s for binaries not divisible by 4
-    public static String binaryPadding(String number) {
-        // The padding should be the remainder - 4
-        int paddingNeeded = 4 - (number.length() % 4);
-        String padding = "";
-        if (paddingNeeded != 4) {
-            for (int i = 0; i < paddingNeeded; i++) {
-                padding += "0";
-            }
-        }
-
-        return padding + number;
-    }
-
-    /**
-     * Format binary for readability for testing purposes
-     * 
-     * @param binary
-     * @return
-     */
-    public static String formatBinary(String binary) {
-        // Create new binary string
-        String formattedBinary = "";
-        // Keep track when space needs to be added
-        int space = 0;
-        for (int i = 0; i < binary.length(); i++) {
-            // Add binary number
-            formattedBinary += binary.charAt(i);
-            // Increment space
-            ++space;
-            // If 4 characters have been added then add space
-            if (space == 4) {
-                formattedBinary += " ";
-                // Reset space back down to 0
-                space = 0;
-            }
-        }
-        return formattedBinary;
-    }
+    // /**
+    // * Format binary for readability for testing purposes
+    // *
+    // * @param binary
+    // * @return
+    // */
+    // public String formatBinary(String binary) {
+    // // Create new binary string
+    // String formattedBinary = "";
+    // // Keep track when space needs to be added
+    // int space = 0;
+    // for (int i = 0; i < binary.length(); i++) {
+    // // Add binary number
+    // formattedBinary += binary.charAt(i);
+    // // Increment space
+    // ++space;
+    // // If 4 characters have been added then add space
+    // if (space == 4) {
+    // formattedBinary += " ";
+    // // Reset space back down to 0
+    // space = 0;
+    // }
+    // }
+    // return formattedBinary;
+    // }
 
     /**
      * Switch case for a 4 bit to hex code
@@ -202,7 +328,7 @@ public class Operations {
      * @param bit
      * @return
      */
-    public static char bitToHex(String bit) {
+    public char bitToHex(String bit) {
         switch (bit) {
             case "0000":
                 return '0';
@@ -225,36 +351,32 @@ public class Operations {
             case "1001":
                 return '9';
             case "1010":
-                return 'A';
+                return 'a';
             case "1011":
-                return 'B';
+                return 'b';
             case "1100":
-                return 'C';
+                return 'c';
             case "1101":
-                return 'D';
+                return 'd';
             case "1110":
-                return 'E';
+                return 'e';
             default:
-                return 'F';
+                return 'f';
         }
     }
 
     /**
      * Convert a hexadecimal number to a decimal
-     * BASE CONVERSION hex -> decimal
+     * BASE CONVERSION hex to decimal
      * 
      * @param hex
      * @return
      */
-    public static int convertHexadecimalToDecimal(String hex) {
-        String newHex = hex;
-        if (hex.startsWith("0x")) {
-            newHex = hex.substring(2);
-        }
+    public int convertHexadecimalToDecimal(String hex) {
         int decimal = 0;
         int power = 0;
-        for (int i = newHex.length() - 1; i >= 0; i--) {
-            int number = hexToDecimal(newHex.charAt(i));
+        for (int i = hex.length() - 1; i >= 0; i--) {
+            int number = hexToDecimal(hex.charAt(i));
             decimal += number * Math.pow(16, power);
             power++;
         }
@@ -263,20 +385,15 @@ public class Operations {
 
     /**
      * Convert a hexadecimal number to a binary
-     * SKIP CONVERSION hex -> decimal -> binary
+     * SKIP CONVERSION hex to decimal to binary
      * 
      * @param hex
      * @return
      */
-    public static String convertHexadecimalToBinary(String hex) {
-        String newHex = hex;
-        if (hex.startsWith("0x")) {
-            newHex = hex.substring(2);
-        }
-        int decimal = convertHexadecimalToDecimal(newHex);
+    public String convertHexadecimalToBinary(String hex) {
+        int decimal = convertHexadecimalToDecimal(hex);
         String binary = convertDecimalToBinary(decimal);
-        String paddedBinary = binaryPadding(binary);
-        return paddedBinary;
+        return binary;
     }
 
     /**
@@ -285,7 +402,7 @@ public class Operations {
      * @param hex
      * @return
      */
-    public static int hexToDecimal(char hex) {
+    public int hexToDecimal(char hex) {
         switch (hex) {
             case '0':
                 return 0;
@@ -307,22 +424,28 @@ public class Operations {
                 return 8;
             case '9':
                 return 9;
-            case 'A':
+            case 'a':
                 return 10;
-            case 'B':
+            case 'b':
                 return 11;
-            case 'C':
+            case 'c':
                 return 12;
-            case 'D':
+            case 'd':
                 return 13;
-            case 'E':
+            case 'e':
                 return 14;
             default:
                 return 15;
         }
     }
 
-    public static int convertDecimalStringToInt(String decimal) {
+    /**
+     * Convert the decimal string to int for decimal functions
+     * 
+     * @param decimal
+     * @return
+     */
+    public int convertDecimalStringToInt(String decimal) {
         int power = 0;
         int number = 0;
         for (int i = decimal.length() - 1; i >= 0; i--) {
@@ -335,13 +458,13 @@ public class Operations {
 
     /**
      * Convert a decimal to a binary
-     * BASE CONVERSION decimal -> binary
+     * BASE CONVERSION decimal to binary
      * NOTE: The order of the binary numbers needs to be written backwards
      * 
      * @param decimal
      * @return
      */
-    public static String convertDecimalToBinary(int decimal) {
+    public String convertDecimalToBinary(int decimal) {
         // Create return string
         String binaryNumber = "";
         while (decimal > 0) {
@@ -349,18 +472,17 @@ public class Operations {
             binaryNumber = remainder + binaryNumber;
             decimal /= 2;
         }
-        String paddedBinary = binaryPadding(binaryNumber);
-        return paddedBinary;
+        return binaryNumber;
     }
 
     /**
      * Convert a decimal to a hexadecimal
-     * SKIP CONVERSION decimal -> binary -> hexadecimal
+     * SKIP CONVERSION decimal to binary to hexadecimal
      * 
      * @param decimal
      * @return
      */
-    public static String convertDecimalToHexadecimal(int decimal) {
+    public String convertDecimalToHexadecimal(int decimal) {
         String binary = convertDecimalToBinary(decimal);
         String hexadecimal = convertBinaryToHexadecimal(binary);
         return hexadecimal;
@@ -368,12 +490,12 @@ public class Operations {
 
     /**
      * Convert a binary to one complement of said binary
-     * BASE CONVERSION binary -> binary
+     * BASE CONVERSION binary to binary
      * 
      * @param binary
      * @return
      */
-    public static String convertToOnesComplement(String binary) {
+    public String convertToOnesComplement(String binary) {
         // Add padding
         String paddedBinary = binaryPadding(binary);
         // Create return string
@@ -391,16 +513,14 @@ public class Operations {
 
     /**
      * Convert a binary number to the two's complement of said binary
-     * SKIP CONVERSION binary -> ones complement -> decimal + 1 -> binary
+     * SKIP CONVERSION binary to ones complement to decimal + 1 to binary
      * 
      * @param binary
      * @return
      */
-    public static String convertToTwosComplement(String binary) {
-        // Add padding
-        String paddedBinary = binaryPadding(binary);
+    public String convertToTwosComplement(String binary) {
         // Convert to ones complement
-        String onesComplement = convertToOnesComplement(paddedBinary);
+        String onesComplement = convertToOnesComplement(binary);
         // Convert to decimal
         int decimal = convertBinaryToDecimal(onesComplement);
         // Add 1
@@ -410,61 +530,81 @@ public class Operations {
         return twosComplement;
     }
 
-    public static String computeTheANDOfTheThreeArguments(String argument1, String argument2, String argument3) {
-        // create return argument for binary1 ^ binary2 ^ binary3
-        String and = "";
-        // Check what the arguments are and convert them to binary
-        String binary1 = convertArgumentToBinary(argument1);
-        String binary2 = convertArgumentToBinary(argument2);
-        String binary3 = convertArgumentToBinary(argument3);
-        // do these need to be padded to the same length
+    /**
+     * Make an array of padded binary variables for the conversion
+     * @return String[]
+     */
+    public String[] padBinaryToSameLength() {
         int longestBinary = determineLongestBinary(binary1, binary2, binary3);
-        binary1 = padBinaryToTheSameLength(binary1, longestBinary);
-        binary2 = padBinaryToTheSameLength(binary2, longestBinary);
-        binary3 = padBinaryToTheSameLength(binary3, longestBinary);
+        String one = padBinaryToTheSameLength(binary1, longestBinary);
+        String two = padBinaryToTheSameLength(binary2, longestBinary);
+        String three = padBinaryToTheSameLength(binary3, longestBinary);
+        String[] paddedBinary = { one, two, three };
+        return paddedBinary;
+    }
+
+    public String computeOR() {
+        // create return argument for binary1 or binary2 or binary3
+        String or = "";
+        int longestBinary = determineLongestBinary(binary1, binary2, binary3);
+        String[] binary = padBinaryToSameLength();
+        // calculate the OR of the three numbers
+        for (int i = 0; i < longestBinary; i++) {
+            if (binary[0].charAt(i) == '1' || binary[1].charAt(i) == '1' || binary[2].charAt(i) == '1') {
+                or += "1";
+            } else {
+                or += "0";
+            }
+        }
+        return or;
+    }
+
+    public String computeAND() {
+        // create return argument for binary1 and binary2 and binary3
+        String and = "";
+        int longestBinary = determineLongestBinary(binary1, binary2, binary3);
+        String[] binary = padBinaryToSameLength();
         // calculate the AND of the three numbers
         for (int i = 0; i < longestBinary; i++) {
-            if (binary1.charAt(i) == binary2.charAt(i) && binary1.charAt(i) == binary3.charAt(i)) {
-                and += binary1.charAt(i);
+            if (binary[0].charAt(i) == binary[1].charAt(i) && binary[0].charAt(i) == binary[2].charAt(i)) {
+                and += binary[0].charAt(i);
+            } else {
+                and += "0";
             }
         }
         return and;
     }
 
-    /**
-     * Check what argument type is passed in
-     * 
-     * @param argument
-     * @return
-     */
-    public static String determineArgumentType(String argument) {
-        String type;
-        if (isBinary(argument)) {
-            binaryContainsIllegalCharacters(argument);
-            type = "binary";
-        } else if (isHexadecimal(argument)) {
-            type = "hexadecimal";
-        } else {
-            type = "decimal";
+    public String computeXOR() {
+        // create return argument for binary1 xor binary2 xor binary3
+        String xor = "";
+        int longestBinary = determineLongestBinary(binary1, binary2, binary3);
+        String[] binary = padBinaryToSameLength();
+        String firstXOR = "";
+        // calculate the XOR of the three numbers
+        for (int i = 0; i < longestBinary; i++) {
+            if (binary[0].charAt(i) == '1' && binary[1].charAt(i) == '0') {
+                firstXOR += "1";
+            } else if (binary[0].charAt(i) == '0' && binary[1].charAt(i) == '1') {
+                firstXOR += "1";
+            } else {
+                firstXOR += "0";
+            }
         }
-        return type;
+
+        for (int i = 0; i < longestBinary; i++) {
+            if (firstXOR.charAt(i) == '1' && binary[2].charAt(i) == '0') {
+                xor += "1";
+            } else if (firstXOR.charAt(i) == '0' && binary[2].charAt(i) == '1') {
+                xor += "1";
+            } else {
+                xor += "0";
+            }
+        }
+        return xor;
     }
 
-    public static String convertArgumentToBinary(String argument) {
-        String binary;
-        if (determineArgumentType(argument).equals("binary")) {
-            binary = convertBinaryToBinary(argument);
-        } else if (determineArgumentType(argument).equals("hexadecimal")) {
-            binary = convertHexadecimalToBinary(argument);
-        } else {
-            int number = convertDecimalStringToInt(argument);
-            binary = convertDecimalToBinary(number);
-        }
-        String paddedBinary = binaryPadding(binary);
-        return paddedBinary;
-    }
-
-    public static int determineLongestBinary(String binary1, String binary2, String binary3) {
+    public int determineLongestBinary(String binary1, String binary2, String binary3) {
         int length1 = binary1.length();
         int length2 = binary2.length();
         int length3 = binary3.length();
@@ -472,125 +612,49 @@ public class Operations {
         return longestBinary;
     }
 
-    public static String padBinaryToTheSameLength(String binary, int length) {
+    public String padBinaryToTheSameLength(String binary, int length) {
         String padding = "";
-        for (int i = 0; i < length - binary.length(); i++) {
+        int paddingNeeded = length - binary.length();
+        for (int i = 0; i < paddingNeeded; i++) {
             padding += "0";
         }
 
         return padding + binary;
     }
 
+    public String shiftLeft(String binary) {
+        return binary + "00";
+    }
+
+    public String shiftRight(String binary) {
+        return binary.substring(0, binary.length() - 2);
+    }
+
     public static void main(String[] args) {
-        // 0b101011001 = 345
-        // 0x159 = 345
-        // decimal
-
-        // test
-        // java cs250/hw1/Operations.java ob101011001 0x159 230
-
-        // 3 arguments will be entered into the command line
+        // java cs250/hw1/Operations.java 15 0b1011 0xfa
+        System.out.println("Task 1");
         checkArgumentLength(args);
-        // check arguments for which is a binary, decimal, or hexadecimal number
-        System.out.println(".:Test isBinary:.");
-        System.out.println("Should be true  Actual: " + isBinary("0b101011001")); // true
-        System.out.println("Should be false Actual: " + isBinary("0x01A5")); // false
-        System.out.println("Should be false Actual: " + isBinary("123")); // false
+        Operations operation = new Operations(args[0], args[1], args[2]);
         System.out.println();
-        System.out.println(".:Test isHexadecimal:.");
-        System.out.println("Should be false Actual: " + isHexadecimal("0b101011001")); // false
-        System.out.println("Should be true  Actual: " + isHexadecimal("0x01A5")); // true
-        System.out.println("Should be false Actual: " + isHexadecimal("123")); // false
+        System.out.println("Task 2");
+        operation.task2();
         System.out.println();
-        System.out.println(".:Test binaryContainsIllegalCharacters:.");
-        System.out.println("Should be False Actual: " + binaryContainsIllegalCharacters("0b1010101010101")); // false
-        System.out.println("Should be True  Actual: " + binaryContainsIllegalCharacters("0b010101234")); // true
+        System.out.println("Task 3");
+        operation.task3();
         System.out.println();
-        System.out.println(".:Test hexadecimalContainsIllegalCharacters:.");
-        System.out.println("Should be False Actual: " + hexadecimalContainsIllegalCharacters("0123456789ABCDEFabcdef")); // false
-        System.out
-                .println("Should be True  Actual: " + hexadecimalContainsIllegalCharacters("0123456789ABCDEFabcdef!")); // true
+        System.out.println("Task 4");
+        operation.task4();
         System.out.println();
-        System.out.println(".:Test decimalContainsIllegalCharacters:.");
-        System.out.println("Should be False Actual: " + decimalContainsIllegalCharacters("0123456789")); // false
-        System.out.println("Should be True  Actual: " + decimalContainsIllegalCharacters("01234abcd!")); // true
+        System.out.println("Task 5");
+        operation.task5();
         System.out.println();
-        System.out.println(".:Test binaryPadding:.");
-        System.out.println("Should be 0001 0101 0101 Actual: " + formatBinary(binaryPadding("0101010101")));
-        System.out.println("Should be 0111           Actual: " + formatBinary(binaryPadding("0111")));
-        System.out.println("Should be 0000 0111      Actual: " + formatBinary(binaryPadding("00111")));
-        System.out.println("Should be 0000 0111      Actual: " + formatBinary(binaryPadding("000111")));
-        System.out.println("Should be 0000 0111      Actual: " + formatBinary(binaryPadding("0000111")));
-        System.out.println("Should be 1000 0111      Actual: " + formatBinary(binaryPadding("10000111")));
-        System.out.println("Should be 0000 1000 0111 Actual: " + formatBinary(binaryPadding("010000111")));
+        System.out.println("Task 6");
+        operation.task6();
         System.out.println();
-        System.out.println(".:Test convertBinaryToHexadecimal:.");
-        System.out.println("Should be 155  Actual: " + convertBinaryToHexadecimal("0b0101010101"));
-        System.out.println("Should be 0F   Actual: " + convertBinaryToHexadecimal("0b00001111"));
+        System.out.println("Task 7");
+        operation.task7();
         System.out.println();
-        System.out.println(".:Test convertBinaryToDecimal:.");
-        System.out.println("Should be 341  Actual: " + convertBinaryToDecimal("0101010101"));
-        System.out.println("Should be 15   Actual: " + convertBinaryToDecimal("00001111"));
-        System.out.println();
-        System.out.println(".:Test convertHexadecimalToDecimal:.");
-        System.out.println("Should be 341  Actual: " + convertHexadecimalToDecimal("155"));
-        System.out.println("Should be 15   Actual: " + convertHexadecimalToDecimal("0F"));
-        System.out.println();
-        System.out.println(".:Test convertHexadecimalToBinary:.");
-        System.out.println("Should be 0001 0101 0101 Actual: " + formatBinary(convertHexadecimalToBinary("155")));
-        System.out.println("Should be 1111           Actual: " + formatBinary(convertHexadecimalToBinary("0F")));
-        System.out.println();
-        System.out.println(".:Test convertDecimalToBinary:.");
-        System.out.println("Should be 0001 0101 0111 Actual: " + formatBinary(convertDecimalToBinary(343)));
-        System.out.println("Should be 1110           Actual: " + formatBinary(convertDecimalToBinary(14)));
-        System.out.println("Should be 1000           Actual: " + formatBinary(convertDecimalToBinary(8)));
-        System.out.println();
-        System.out.println(".:Test convertDecimalToHexadecimal:.");
-        System.out.println("Should be 155  Actual: " + convertDecimalToHexadecimal(341));
-        System.out.println("Should be F    Actual: " + convertDecimalToHexadecimal(15));
-        System.out.println();
-        System.out.println(".:Test convertToOnesComplement:.");
-        System.out.println("Should be 1110 0111 Actual: " + formatBinary(convertToOnesComplement("00011000")));
-        System.out.println("Should be 1110      Actual: " + convertToOnesComplement("01"));
-        System.out.println();
-        System.out.println(".:Test convertTwosComplement:.");
-        System.out.println("Should be 1000      Actual: " + convertToTwosComplement("1000"));
-        System.out.println("Should be 1111      Actual: " + convertToTwosComplement("01"));
-        System.out.println();
-        System.out.println(".:Test convertDecimalStringToInt:.");
-        System.out.println("Should be 1         Actual: " + convertDecimalStringToInt("1"));
-        System.out.println("Should be 12        Actual: " + convertDecimalStringToInt("12"));
-        System.out.println("Should be 123       Actual: " + convertDecimalStringToInt("123"));
-        System.out.println("Should be 1234      Actual: " + convertDecimalStringToInt("1234"));
-        System.out.println("Should be 12345     Actual: " + convertDecimalStringToInt("12345"));
-        System.out.println("Should be 123456    Actual: " + convertDecimalStringToInt("123456"));
-        System.out.println("Should be 1234567   Actual: " + convertDecimalStringToInt("1234567"));
-        System.out.println("Should be 12345678  Actual: " + convertDecimalStringToInt("12345678"));
-        System.out.println("Should be 123456789 Actual: " + convertDecimalStringToInt("123456789"));
-        System.out.println();
-        System.out.println(".:Test convertTwosComplement:.");
-        System.out.println("Should be 0000 0000 0001 Actual: " + formatBinary(padBinaryToTheSameLength("001", 12)));
-        System.out.println("Should be 0000 0001      Actual: " + formatBinary(padBinaryToTheSameLength("01", 8)));
-        System.out.println("Should be 1001           Actual: " + formatBinary(padBinaryToTheSameLength("1001", 4)));
-        System.out.println();
-        System.out.println(".:Test convertBinaryToBinary:.");
-        System.out.println("Should be 011           Actual: " + formatBinary(convertBinaryToBinary("0b011")));
-        System.out.println();
-        System.out.println(".:Test determineArgumentType:.");
-        System.out.println("Should be binary        Actual: " + determineArgumentType("0b011"));
-        System.out.println("Should be hexadecimal   Actual: " + determineArgumentType("0x011"));
-        System.out.println("Should be decimal       Actual: " + determineArgumentType("11"));
-        System.out.println();
-        System.out.println(".:Test convertArgumentToBinary:.");
-        System.out.println("Should be 011           Actual: " + convertArgumentToBinary("0b011"));
-        System.out.println("Should be 0001 0001     Actual: " + formatBinary(convertArgumentToBinary("0x011")));
-        System.out.println("Should be 1011          Actual: " + convertArgumentToBinary("11"));
-        System.out.println();
-        System.out.println(".:Test computeTheANDOfTheThreeArguments:.");
-        System.out.println("Should be 0000 1000     Actual: "
-                + formatBinary(computeTheANDOfTheThreeArguments("0b00011100", "0b10101011", "0b10011000")));
-        System.out.println("Should be 0000 1000     Actual: "
-                + formatBinary(computeTheANDOfTheThreeArguments("0b00011100", "171", "0x98")));
-
+        System.out.println("Task 8");
+        operation.task8();
     }
 }
