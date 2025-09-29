@@ -3,7 +3,7 @@ package cs250.hw1;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class Operations {
+public class EC {
     public String argument1;
     private String binary1;
     private String argument2;
@@ -59,7 +59,7 @@ public class Operations {
         return this.binary3;
     }
 
-    public Operations(String argument1, String argument2, String argument3) {
+    public EC(String argument1, String argument2, String argument3) {
         setArgument1(argument1);
         setArgument2(argument2);
         setArgument3(argument3);
@@ -634,7 +634,7 @@ public class Operations {
         // java cs250/hw1/Operations.java 15 0b1011 0xfa
         System.out.println("Task 1");
         checkArgumentLength(args);
-        Operations operation = new Operations(args[0], args[1], args[2]);
+        EC operation = new EC(args[0], args[1], args[2]);
         System.out.println();
         System.out.println("Task 2");
         operation.task2();

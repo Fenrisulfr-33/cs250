@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 import hw1.Operations;
 
 public class TestOperations {
-    Operations operations = new Operations("0b101011001", "0x159", "345"); // All 345
+    EC operations = new EC("0b101011001", "0x159", "345"); // All 345
 
     // Test song name is added to song class
     @Test
