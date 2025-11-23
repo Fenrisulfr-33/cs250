@@ -9,10 +9,11 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class BinaryTree implements TreeStructure {
-    Node root;
+    private Node root;
 
     public BinaryTree() {
         // Constructor for Binary Tree
+        this.root = null;
     }
 
     @Override
@@ -52,7 +53,58 @@ public class BinaryTree implements TreeStructure {
     @Override
     public boolean remove(Integer num) {
         // Implementation for removing a value from the binary tree
+        if (root == null) {
+            return false; // Tree is empty
+        }
+        deleteRec(root, num);
         return false;
+    }
+
+    /**
+     * Helper method to delete a node recursively
+     * 
+     * @param current current node
+     * @param num     number to be deleted
+     * @return the modified current node
+     */
+    private Node deleteRec(Node current, Integer num) {
+        if (current == null) {
+            return null;
+        }
+
+        if (num.equals(current.num)) {
+            // Node to delete found
+            if (current.left == null && current.right == null) {
+                return null; // No children
+            }
+            if (current.left == null) {
+                return current.right; // One child (right)
+            }
+            if (current.right == null) {
+                return current.left; // One child (left)
+            }
+            // Two children
+            Integer smallestValue = findSmallestValue(current.right);
+            current.num = smallestValue;
+            current.right = deleteRec(current.right, smallestValue);
+            return current;
+        }
+        if (num < current.num) {
+            current.left = deleteRec(current.left, num);
+            return current;
+        }
+        current.right = deleteRec(current.right, num);
+        return current;
+    }
+
+    /**
+     * Helper method to find the smallest value in a subtree
+     * 
+     * @param root root of the subtree
+     * @return the smallest value
+     */
+    private Integer findSmallestValue(Node root) {
+        return root.left == null ? root.num : findSmallestValue(root.left);
     }
 
     @Override
@@ -94,13 +146,43 @@ public class BinaryTree implements TreeStructure {
     @Override
     public int findMaxDepth() {
         // Implementation for finding the maximum depth of the binary tree
-        return 0;
+        return findMaxDepthRec(root);
+    }
+
+    /**
+     * Helper method to find the maximum depth recursively
+     * 
+     * @param current current node
+     * @return maximum depth from current node
+     */
+    private int findMaxDepthRec(Node current) {
+        if (current == null) {
+            return 0;
+        }
+        int leftDepth = findMaxDepthRec(current.left);
+        int rightDepth = findMaxDepthRec(current.right);
+        return Math.max(leftDepth, rightDepth) + 1;
     }
 
     @Override
     public int findMinDepth() {
         // Implementation for finding the minimum depth of the binary tree
-        return 0;
+        return findMinDepthRec(root);
+    }
+
+    /**
+     * Helper method to find the minimum depth recursively
+     * 
+     * @param current current node
+     * @return minimum depth from current node
+     */
+    private int findMinDepthRec(Node current) {
+        if (current == null) {
+            return 0;
+        }
+        int leftDepth = findMinDepthRec(current.left);
+        int rightDepth = findMinDepthRec(current.right);
+        return Math.min(leftDepth, rightDepth) + 1;
     }
 
     public static void main(String[] args) throws FileNotFoundException, IOException {
